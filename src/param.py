@@ -1,5 +1,5 @@
 from src import ROOT_DIR
-A
+
 
 class PARAMS(object):
     # for video_combine.py
