@@ -12,12 +12,14 @@ def combine():
     while cap_right.isOpened():
         ret_right, frame_right = cap_right.read()
         ret_left, frame_left = cap_left.read()
-        (status, stitched) = stitcher.stitch([frame_left, frame_right])
-        if status != 0:
-            break
-        img = cv2.resize(stitched, (PARAMS.W, PARAMS.H))
-        # cv2.imshow('frame', img)
-        out.write(img)
+        # sometimes we don't get anything out of .read() above...
+        if frame_left is not None and frame_right is not None:
+            (status, stitched) = stitcher.stitch([frame_left, frame_right])
+            if status != 0:
+                continue
+            img = cv2.resize(stitched, (PARAMS.W, PARAMS.H))
+            # cv2.imshow('frame', img)
+            out.write(img)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
